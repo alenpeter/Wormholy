@@ -19,12 +19,14 @@ jobs:
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-    - name: Run a multi-line script
-      run: |
-        git clone --mirror https://github.com/pmusolino/Wormholy.git Wormholy
-        cd Wormholy
-        git remote add --mirror=fetch mine git@github.com:alenpeter/Wormholy.git
-        git fetch origin
-        git push mine --all
-        echo completed
+    - uses: shimataro/ssh-key-action@v2.0.1
+      with:
+        key: {{ secrets.GITHUB_SSH }}
+        known_hosts: github.com
+      run: git clone --mirror https://github.com/pmusolino/Wormholy.git Wormholy
+      run: cd Wormholy
+      run: git remote add --mirror=fetch mine git@github.com:alenpeter/Wormholy.git
+      run: git fetch origin
+      run: git push mine --all
+      run: echo completed
         
